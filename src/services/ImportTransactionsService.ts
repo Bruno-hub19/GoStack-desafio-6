@@ -53,8 +53,6 @@ class ImportTransactionsService {
       (category: Category) => category.title,
     );
 
-    // Filtra categorias do arquivos CVS que não existem no banco de dados
-    // após filtradas, um novo filtro passa por elas para remover duplicatas
     const addCategoryTitles = categories
       .filter(category => !existentsCategoriesTitle.includes(category))
       .filter((value, index, self) => self.indexOf(value) === index);
@@ -83,8 +81,6 @@ class ImportTransactionsService {
     await transactionsRepository.save(createdTransactions);
 
     await fs.promises.unlink(transactionsFilePath);
-    // console.log(addCategoryTitles);
-    // console.log(transactions);
 
     return createdTransactions;
   }
